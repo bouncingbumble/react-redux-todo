@@ -16,14 +16,13 @@ class Form extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        this.props.addTodo({id:this.props.id, text: this.state.value})
-
-        this.setState({value: ''})
+        this.props.handleSubmit({text: this.state.value, id: this.props.id});
+        e.target.reset();
+        this.props.history.push("/todos");
     }
   
     handleChange(e){
-      e.preventDefault();
-      this.setState({value: e.target.value})
+        this.setState({value: e.target.value})
     }
   
     render(){
@@ -35,9 +34,9 @@ class Form extends Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-      )
+        )
     }
-  }
+}
   
 function mapStateToProps(reduxState){
     return {

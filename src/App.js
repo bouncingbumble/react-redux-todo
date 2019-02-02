@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { connect } from "react-redux"
 import Form from './Form';
-import Todo from './Todo';
-import { removeTodo } from './actionCreators';
 import { Link, Route, Redirect } from "react-router-dom";
 import TodoList from './TodoList';
 
@@ -12,8 +9,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Form />
-          <TodoList />
+        <h1>Todo list in react-redux</h1>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/todos">See what i have to do!</Link>
+              </li>
+              <li>
+                <Link to="/todos/new">Add a todo</Link>
+              </li>
+            </ul>
+          </nav>
+          <Route path="/todos" component={TodoList} />
+          <Route exact path="/" render={() => <Redirect to="/todos" /> } />
+        </div>
       </div>
     );
   }
