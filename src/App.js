@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { connect } from "react-redux"
+import Form from './Form';
+import Todo from './Todo';
+import { REMOVE_TODO, removeTodo } from './actionCreators';
+
 
 class App extends Component {
+  constructor(props){
+    super(props);
+
+    this.removeTodo = this.removeTodo.bind(this);
+  }
+
+  removeTodo(id){
+    this.props.removeTodo(id);
+  }
+
   render() {
+    let todoList = this.props.todos.map(todo => {
+      return <Todo text={todo.text} key={todo.id} removeTodo={this.removeTodo.bind(this, todo.id)}/>
+    })
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div>
+          <Form />
+        </div>
+        {todoList}
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(reduxState){
+  return {
+    todos: reduxState.todos,
+    id: reduxState.id,
+    value: reduxState.value
+  }
+}
+
+export default connect(mapStateToProps, {removeTodo})(App);
